@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>schema/v1/ &mdash; property-pack</title>
+<style>
+  :root { --bg:#fbfaf8; --fg:#1a1a18; --muted:#5c5b57; --rule:#e0ddd6; --accent:#6b4f1d; --code:#f3f1ec; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#17171a; --fg:#e8e6e1; --muted:#a3a19b; --rule:#34343a; --accent:#d9b877; --code:#26262b; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+    font:16px/1.65 ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:42rem;margin:0 auto;padding:3rem 1.25rem 4rem}
+  h1{font-size:1.4rem;margin:0 0 .25rem;letter-spacing:-.01em}
+  .lede{color:var(--muted);margin:0 0 2rem}
+  a{color:var(--accent);text-underline-offset:2px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.875em;
+    background:var(--code);padding:.1em .35em;border-radius:3px}
+  ul{padding-left:1.1rem}
+  li{margin:.6rem 0}
+  .note{color:var(--muted);font-size:.92rem}
+  hr{border:0;border-top:1px solid var(--rule);margin:2.5rem 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1><code>schema/v1/</code></h1>
+<p class="lede">
+  A suggested way forward for property packs in England. One worked proposal
+  &mdash; not a standard, and endorsed by nobody.
+</p>
+
+<p>
+  This is a namespace base, not a document. The versioned artefacts published
+  at this address are:
+</p>
+
+<ul>
+  <li>
+    <a href="components.json"><code>components.json</code></a> &mdash; the
+    component register: 27 components with permanent identifiers, supply codes,
+    verification ceilings, expiry semantics and primary sources.
+    <span class="note">CC-BY-4.0.</span>
+  </li>
+  <li>
+    <a href="https://github.com/propertycommons/property-pack/blob/main/schema/v1/envelope.ts"><code>envelope.ts</code></a>
+    &mdash; the provenance envelope: <code>Envelope&lt;T&gt;</code>,
+    <code>VerificationLevel</code>, <code>LegalStatus</code>.
+    <span class="note">CC-BY-4.0. Linked to the blob view because GitHub Pages
+    serves <code>.ts</code> as <code>video/mp2t</code>, so a browser downloads
+    it rather than displaying it.</span>
+  </li>
+</ul>
+
+<p class="note">
+  Not written yet, and named so their absence is visible rather than implied:
+  <code>rule-result.ts</code>, the question, bundle, notification and hook
+  schemas, the reference validator and the conformance fixtures. No version is
+  tagged, and conformance is not yet claimable.
+</p>
+
+<hr>
+<p class="note">
+  <a href="../../">property-pack</a> &middot;
+  <a href="https://github.com/propertycommons/property-pack">source</a> &middot;
+  This project is a suggestion &mdash; one possible trajectory for property
+  packs in England, endorsed by nobody. Not legal advice.
+</p>
+</div>
+</body>
+</html>

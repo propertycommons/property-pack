@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>commons/v1/ &mdash; property-pack</title>
+<style>
+  :root { --bg:#fbfaf8; --fg:#1a1a18; --muted:#5c5b57; --rule:#e0ddd6; --accent:#6b4f1d; --code:#f3f1ec; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#17171a; --fg:#e8e6e1; --muted:#a3a19b; --rule:#34343a; --accent:#d9b877; --code:#26262b; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+    font:16px/1.65 ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:42rem;margin:0 auto;padding:3rem 1.25rem 4rem}
+  h1{font-size:1.4rem;margin:0 0 .25rem;letter-spacing:-.01em}
+  .lede{color:var(--muted);margin:0 0 2rem}
+  a{color:var(--accent);text-underline-offset:2px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.875em;
+    background:var(--code);padding:.1em .35em;border-radius:3px}
+  ul{padding-left:1.1rem}
+  li{margin:.6rem 0}
+  .note{color:var(--muted);font-size:.92rem}
+  hr{border:0;border-top:1px solid var(--rule);margin:2.5rem 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1><code>commons/v1/</code></h1>
+<p class="lede">
+  A suggested way forward for property packs in England. One worked proposal
+  &mdash; not a standard, and endorsed by nobody.
+</p>
+
+<p>
+  <strong>Nothing is published at this address yet.</strong> It is reserved,
+  licensed CC-BY-SA-4.0, and covered by the editorial gate from the commit that
+  created it &mdash; so that no row can ever land here ungated and need
+  grandfathering in afterwards.
+</p>
+
+<p>What is expected to land here:</p>
+
+<ul>
+  <li><code>question-bank/</code> &mdash; modules of questions, authored from scratch, each carrying who asks for it and why</li>
+  <li><code>legislation-watch.json</code> &mdash; what is being watched, on what cadence, and which components a status change would move</li>
+  <li><code>gap-catalogue.json</code> &mdash; for every component: who holds it, and what the next step is</li>
+  <li><code>readiness-model.json</code> &mdash; the completeness formula, credit bands and applicability rules, with the initial weights published as the guesses they are</li>
+  <li><code>language-rulebook.json</code> &mdash; never-say and say-instead pairs, as data rather than prose</li>
+  <li><code>leasehold-request.md</code> &mdash; an information request template a managing agent would recognise</li>
+</ul>
+
+<p class="note">
+  Every row published here will carry a primary <code>sourceUrl</code>, a
+  <code>status</code> from the five-value taxonomy, <code>checkedBy</code>,
+  <code>lastCheckedAt</code> and <code>jurisdiction</code>. Continuous
+  integration enforces all five on every commit.
+</p>
+
+<hr>
+<p class="note">
+  <a href="../../">property-pack</a> &middot;
+  <a href="https://github.com/propertycommons/property-pack">source</a> &middot;
+  This project is a suggestion &mdash; one possible trajectory for property
+  packs in England, endorsed by nobody. Not legal advice.
+</p>
+</div>
+</body>
+</html>

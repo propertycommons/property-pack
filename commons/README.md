@@ -28,10 +28,11 @@ own material privately.
 
 ---
 
-## This directory is intentionally empty
+## This directory holds no editorial content yet
 
 It carries its own licence and its own CI gate **from the commit that created
-it**, before any content exists.
+it**, before any content exists. The only file published here so far is an
+index page saying so.
 
 That is the point. A directory that is licensed and gated from the beginning
 cannot later be argued to have inherited the root Apache-2.0 licence, and no

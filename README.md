@@ -49,7 +49,7 @@ to keep one private until it is too late to change.
 | --- | --- |
 | [`schema/v1/components.json`](schema/v1/components.json) | The component register: 27 named components, each with a permanent id, a supply code, the best verification level reachable for it today, expiry semantics, a primary source, and a status |
 | [`schema/v1/envelope.ts`](schema/v1/envelope.ts) | The provenance envelope: `Envelope<T>`, `VerificationLevel` (five states), `LegalStatus` (five states) |
-| [`commons/`](commons/) | Licensed and gated, and intentionally empty. The editorial content lands here |
+| [`commons/`](commons/) | Licensed and gated from the commit that created it. No editorial content yet; it lands here |
 | `NOTICE`, `LICENSE`, `schema/LICENSE-VOCABULARY`, `commons/LICENSE` | The licence boundary, scoped by directory |
 | `VERSIONING.md`, `CONTRIBUTING.md`, `SECURITY.md` | How this is versioned, how to contribute, how to report a vulnerability |
 

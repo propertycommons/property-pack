@@ -82,7 +82,8 @@ jobs:
             fi
           done
 
-          for f in NOTICE SECURITY.md schema/v1/envelope.ts; do
+          for f in NOTICE SECURITY.md schema/v1/envelope.ts \
+                   schema/v1/index.html commons/v1/index.html; do
             if ! grep -qF "$short" "$f"; then
               echo "MISSING short framing statement: $f"
               fail=1
