@@ -15,10 +15,10 @@ jobs:
     name: Register and editorial gate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          node-version: '22'
       - name: Run the editorial gate
         run: node .github/scripts/check-registers.mjs
 
@@ -26,10 +26,10 @@ jobs:
     name: Types compile
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          node-version: '22'
       # The package is typescript; the binary is tsc. `npx typescript@5` fails
       # with "could not determine executable to run".
       - name: Type check the envelope
@@ -39,7 +39,7 @@ jobs:
     name: Hygiene
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # Nothing published may cite a document nobody can open. A repository
       # that footnotes an invisible document is worse than one that footnotes
