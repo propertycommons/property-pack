@@ -1,0 +1,15 @@
+# Private working documents. Never publishable here.
+*brief*.md
+next-steps.md
+handover.md
+
+# Secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Local noise
+node_modules/
+.DS_Store
+Thumbs.db

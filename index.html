@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>property-pack</title>
+<meta name="description" content="Open schemas, vocabularies and registers describing one suggested shape for an English residential property pack. Interchange format: ukpp.pack.v1.">
+<style>
+  :root {
+    --bg: #fbfaf8; --fg: #1a1a18; --muted: #5c5b57; --rule: #e0ddd6;
+    --card: #ffffff; --accent: #6b4f1d; --flagbg: #fdf6e3; --flagbd: #e8d9a8;
+    --code: #f3f1ec;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17171a; --fg: #e8e6e1; --muted: #a3a19b; --rule: #34343a;
+      --card: #1f1f23; --accent: #d9b877; --flagbg: #241f14; --flagbd: #4d4028;
+      --code: #26262b;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.65 ui-sans-serif, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-text-size-adjust: 100%;
+  }
+  .wrap { max-width: 46rem; margin: 0 auto; padding: 3rem 1.25rem 5rem; }
+  h1 { font-size: 1.9rem; letter-spacing: -0.02em; margin: 0 0 .35rem; }
+  h2 { font-size: 1.2rem; margin: 2.75rem 0 .75rem; letter-spacing: -0.01em; }
+  h3 { font-size: 1rem; margin: 1.75rem 0 .5rem; }
+  p, li { color: var(--fg); }
+  .lede { color: var(--muted); margin: 0 0 2rem; font-size: 1.05rem; }
+  a { color: var(--accent); text-underline-offset: 2px; }
+  code, .mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .875em; background: var(--code); padding: .1em .35em; border-radius: 3px;
+  }
+  .flag {
+    background: var(--flagbg); border: 1px solid var(--flagbd);
+    border-radius: 6px; padding: 1.15rem 1.35rem; margin: 0 0 2rem;
+  }
+  .flag p { margin: .6rem 0 0; }
+  .flag p:first-child { margin-top: 0; }
+  .flag strong { font-weight: 650; }
+  table { border-collapse: collapse; width: 100%; font-size: .93rem; }
+  .scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 1rem 0; }
+  th, td { text-align: left; padding: .55rem .7rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-weight: 620; color: var(--muted); font-size: .82rem; text-transform: uppercase; letter-spacing: .04em; }
+  td code { white-space: nowrap; }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
+  footer { color: var(--muted); font-size: .9rem; }
+  .note { color: var(--muted); font-size: .92rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>property-pack</h1>
+<p class="lede">
+  A suggested way forward for property packs in England.
+  One worked proposal &mdash; not a standard, and endorsed by nobody.
+</p>
+
+<div class="flag">
+  <p><strong>This is a suggestion, not a standard.</strong></p>
+  <p>
+    Everything here &mdash; the component register, the identifiers, the
+    envelope, the licence boundaries, the version policy &mdash; is one worked
+    proposal for how a residential property pack in England could be described.
+    It is an indication of a possible trajectory, published early and openly so
+    that it can be argued with, adopted in part, or replaced by something
+    better.
+  </p>
+  <p>
+    <strong>No government department, regulator, accreditation body or trade
+    association has endorsed it.</strong> Nothing here is required of anyone,
+    and nothing here describes what a property pack <em>will</em> contain
+    &mdash; only what one <em>could</em> contain, for the reasons set out
+    alongside it.
+  </p>
+</div>
+
+<p>
+  Open schemas, vocabularies and registers describing one suggested shape for an
+  English residential property pack. Interchange format:
+  <code>ukpp.pack.v1</code>. Everything is published from
+  <a href="https://github.com/propertycommons/property-pack">the repository</a>,
+  which is where the reasoning behind each decision lives.
+</p>
+
+<h2>The published artefacts</h2>
+
+<div class="scroll">
+<table>
+  <thead>
+    <tr><th>Artefact</th><th>Address</th><th>Licence</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Component register</strong><br><span class="note">27 components with permanent identifiers</span></td>
+      <td><a href="schema/v1/components.json"><code>schema/v1/components.json</code></a></td>
+      <td>CC-BY-4.0</td>
+    </tr>
+    <tr>
+      <td><strong>Provenance envelope</strong><br><span class="note">Five verification states, five legal statuses</span></td>
+      <td><a href="https://github.com/propertycommons/property-pack/blob/main/schema/v1/envelope.ts"><code>schema/v1/envelope.ts</code></a></td>
+      <td>CC-BY-4.0</td>
+    </tr>
+    <tr>
+      <td><strong>Editorial commons</strong><br><span class="note">Licensed and gated; intentionally empty so far</span></td>
+      <td><a href="https://github.com/propertycommons/property-pack/tree/main/commons"><code>commons/v1/</code></a></td>
+      <td>CC-BY-SA-4.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p class="note">
+  The envelope links to the GitHub blob view rather than to this site: GitHub
+  Pages serves <code>.ts</code> as <code>video/mp2t</code>, so a browser offers
+  to download it rather than display it.
+</p>
+
+<p>
+  Each <code>$id</code> is the literal path the file is served from. The version
+  sits in the directory rather than only in the identifier, so no build step
+  exists that could let the two drift apart, and a future <code>v2</code> would
+  be a sibling directory rather than a rewrite. A format nobody can dereference
+  is a file, not a reference.
+</p>
+
+<h2>What the component identifiers are for</h2>
+
+<p>
+  The 27 identifiers in the register &mdash; <code>epc</code>,
+  <code>leasehold-terms</code>, <code>standard-searches</code> and the rest
+  &mdash; are the part of this project most worth copying. Two products cannot
+  exchange a pack without agreeing on what the pieces are called. The vocabulary
+  is licensed CC-BY-4.0 rather than share-alike precisely so that anyone,
+  including a direct competitor, can emit these identifiers without friction.
+  That is the intended outcome, not a concession.
+</p>
+
+<p>
+  Because other people may come to depend on them, changing a published
+  identifier is governed by the version policy rather than by ordinary review.
+  <strong>Stability is a courtesy to anyone who adopts them. It is not a claim
+  that this decomposition is correct.</strong>
+</p>
+
+<h2>Conformance is not yet claimable</h2>
+
+<p>
+  The reference validator and the conformance fixtures do not exist yet, and no
+  version has been tagged. There is nothing to conform to.
+</p>
+
+<p>
+  When they exist, conformance will mean exactly one thing: <em>an
+  implementation conforms if it emits bundles that validate against these
+  published schemas and passes these published fixtures.</em> That is a
+  statement about interoperating with this proposal. It is <strong>not</strong>
+  a mark of quality, an endorsement, a certification, or evidence that anything
+  is compliant with any legal requirement.
+</p>
+
+<h2>Open source is not open data</h2>
+
+<p>
+  <strong>This project publishes no property records and no personal data, and
+  it never will.</strong>
+</p>
+
+<p>
+  "Open source" and "open data" are routinely read as the same thing, and they
+  are not. What is published here describes what a pack <em>is</em>. No user
+  record, no uploaded document, no access log and no identity evidence is ever
+  published here. Any service built on these artefacts holds that material
+  privately; the artefacts describe its shape, never its contents.
+</p>
+
+<h2>How the dates work</h2>
+
+<p>
+  The register carries two dates and they are different facts.
+  <code>lastCheckedAt</code> is when the regulatory position was last checked.
+  <code>sourceUrlsResolvedAt</code> is when the links were last confirmed to
+  resolve. They are separate fields holding separate values, because conflating
+  them is what quietly turns a maintained document into a stale one that still
+  looks maintained.
+</p>
+
+<hr>
+
+<footer>
+  <p>
+    <strong>This project is a suggestion</strong> &mdash; one possible
+    trajectory for property packs in England, one worked proposal among the
+    several that could be written, endorsed by nobody. Nothing here has been
+    adopted.
+  </p>
+  <p>
+    <strong>Not legal advice.</strong> Every regulatory statement carries a
+    status label and the date it was last checked. The pack requirements this
+    work anticipates are <code>announced-policy</code> &mdash; they are not law,
+    and no seller is required to produce a pack today. Statuses change; the
+    dates are published so you can see how old the position is rather than
+    assume it is current.
+  </p>
+  <p>
+    Code Apache-2.0 &middot; vocabulary CC-BY-4.0 &middot; editorial content
+    CC-BY-SA-4.0 &middot;
+    <a href="https://github.com/propertycommons/property-pack/blob/main/NOTICE">the path map</a>
+    &middot;
+    <a href="https://github.com/propertycommons/property-pack">source</a>
+  </p>
+</footer>
+
+</div>
+</body>
+</html>
