@@ -21,6 +21,8 @@ jobs:
           node-version: '22'
       - name: Run the editorial gate
         run: node .github/scripts/check-registers.mjs
+      - name: Run the schema gate
+        run: node .github/scripts/check-schemas.mjs
 
   types:
     name: Types compile
@@ -32,8 +34,22 @@ jobs:
           node-version: '22'
       # The package is typescript; the binary is tsc. `npx typescript@5` fails
       # with "could not determine executable to run".
-      - name: Type check the envelope
-        run: npx --yes --package typescript@5 tsc --noEmit --strict --skipLibCheck schema/v1/envelope.ts
+      - name: Type check the published types
+        run: npx --yes --package typescript@5 tsc --noEmit --strict --skipLibCheck schema/v1/*.ts
+
+  conformance:
+    name: Conformance fixtures
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+      # Ajv is fetched through a pinned npx, like tsc above: no lockfile and
+      # no install step. The version is pinned so that a verdict is
+      # reproducible from the commit alone.
+      - name: Run the fixtures against the reference validator
+        run: npx --yes --package ajv@8.20.0 -c 'node schema/validator/run-fixtures.mjs'
 
   hygiene:
     name: Hygiene
@@ -46,7 +62,7 @@ jobs:
       # nothing.
       - name: No cross-references to unpublished working documents
         run: |
-          hits=$(git ls-files -z '*.md' '*.json' '*.ts' '*.html' \
+          hits=$(git ls-files -z '*.md' '*.json' '*.ts' '*.html' '*.mjs' '*.yml' \
             | xargs -0 -r grep -lF "$(printf '\xc2\xa7')" || true)
           if [ -n "$hits" ]; then
             echo "Published files contain the section-mark character, which can"
@@ -75,6 +91,7 @@ jobs:
           short='not a standard, and endorsed by nobody'
 
           for f in README.md index.html schema/README.md commons/README.md \
+                   schema/validator/README.md schema/fixtures/README.md \
                    CONTRIBUTING.md VERSIONING.md; do
             if ! grep -qF "$full" "$f"; then
               echo "MISSING full framing statement: $f"
@@ -82,8 +99,9 @@ jobs:
             fi
           done
 
-          for f in NOTICE SECURITY.md schema/v1/envelope.ts \
-                   schema/v1/index.html commons/v1/index.html; do
+          # Every published artefact in schema/v1/, by glob, so that a new
+          # one cannot be added without it.
+          for f in NOTICE SECURITY.md schema/v1/* commons/v1/index.html; do
             if ! grep -qF "$short" "$f"; then
               echo "MISSING short framing statement: $f"
               fail=1

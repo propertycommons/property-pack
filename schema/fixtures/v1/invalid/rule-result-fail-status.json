@@ -1,0 +1,17 @@
+{
+  "$comment": "SPDX-License-Identifier: Apache-2.0. Synthetic conformance fixture: no real property, person or record. A rule result is pass, action-needed, uncertain or not-applicable. \"fail\" is not a status.",
+  "ruleId": "licensing.selective_designation",
+  "status": "fail",
+  "because": [
+    {
+      "fieldPath": "fields.selectiveLicensing",
+      "observed": null
+    },
+    {
+      "fieldPath": "localAuthority.code",
+      "observed": "E99999999"
+    }
+  ],
+  "legalStatus": "locally-discretionary",
+  "asOf": "2026-09-02T09:14:30Z"
+}

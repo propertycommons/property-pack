@@ -1,0 +1,24 @@
+{
+  "$comment": "SPDX-License-Identifier: Apache-2.0. Synthetic conformance fixture: no real property, person or record. An owner's answer is never presented as verified. Every answer is ownerDeclared.",
+  "answerId": "ans_EXAMPLE0001",
+  "recordId": "rec_EXAMPLE0001",
+  "questionId": "alterations.building_regs_completion",
+  "value": "yes-have-them",
+  "answeredAt": "2026-09-02T19:22:41Z",
+  "answeredBy": {
+    "kind": "user",
+    "id": "usr_EXAMPLE0001",
+    "role": "seller"
+  },
+  "verificationLevel": "sourceMatched",
+  "evidence": [
+    {
+      "documentId": "doc_EXAMPLE0001",
+      "filename": "example-completion-certificate.pdf",
+      "uploadedAt": "2026-09-02T19:23:10Z",
+      "validUntil": null,
+      "verificationLevel": "ownerDeclared"
+    }
+  ],
+  "supersedes": null
+}

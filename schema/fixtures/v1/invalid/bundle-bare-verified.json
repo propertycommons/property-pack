@@ -1,0 +1,33 @@
+{
+  "$schema": "https://propertycommons.github.io/property-pack/schema/v1/bundle.schema.json",
+  "$comment": "SPDX-License-Identifier: Apache-2.0. Synthetic conformance fixture: no real property, person or record. There is no single \"verified\" state. Five states, never collapsed into one badge.",
+  "schemaVersion": "ukpp.pack.v1",
+  "bundleId": "bnd_EXAMPLE0001",
+  "generatedAt": "2026-09-16T11:04:22Z",
+  "recordId": "rec_EXAMPLE0001",
+  "jurisdiction": "england",
+  "audience": "buyer-conveyancer",
+  "disclaimer": "Prepared voluntarily by the property owner using a self-service tool. Owner-declared items are not independently verified. No component is certified.",
+  "property": {
+    "uprn": "999999999999",
+    "addressNormalised": "1 Example Street, Exampletown, ZZ99 9ZZ"
+  },
+  "components": [
+    {
+      "component": "epc",
+      "status": "present",
+      "verificationLevel": "verified",
+      "source": "epc-odc",
+      "sourceRecordId": "0000-0000-0000-0000-0000",
+      "collectedAt": "2026-09-02T09:14:25Z",
+      "verifiedAt": "2026-09-02T09:14:25Z",
+      "validUntil": "2029-04-02T00:00:00Z",
+      "legalStatus": "in-force",
+      "value": {
+        "certificateId": "0000-0000-0000-0000-0000",
+        "regimeVersion": "sap-2012",
+        "legacyEER": "D"
+      }
+    }
+  ]
+}

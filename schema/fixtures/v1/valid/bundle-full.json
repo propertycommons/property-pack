@@ -1,0 +1,157 @@
+{
+  "$schema": "https://propertycommons.github.io/property-pack/schema/v1/bundle.schema.json",
+  "$comment": "SPDX-License-Identifier: Apache-2.0. Synthetic conformance fixture: no real property, person or record. A full bundle: every component status, every optional section, a private x- component and an x- extension property.",
+  "schemaVersion": "ukpp.pack.v1",
+  "bundleId": "bnd_EXAMPLE0001",
+  "generatedAt": "2026-09-16T11:04:22Z",
+  "recordId": "rec_EXAMPLE0001",
+  "jurisdiction": "england",
+  "audience": "buyer-conveyancer",
+  "disclaimer": "Prepared voluntarily by the property owner using a self-service tool. Owner-declared items are not independently verified. No component is certified.",
+  "property": {
+    "uprn": "999999999999",
+    "addressNormalised": "1 Example Street, Exampletown, ZZ99 9ZZ",
+    "tenure": {
+      "value": "leasehold",
+      "verificationLevel": "ownerDeclared"
+    }
+  },
+  "components": [
+    {
+      "component": "epc",
+      "status": "present",
+      "verificationLevel": "sourceMatched",
+      "source": "epc-odc",
+      "sourceRecordId": "0000-0000-0000-0000-0000",
+      "collectedAt": "2026-09-02T09:14:25Z",
+      "verifiedAt": "2026-09-02T09:14:25Z",
+      "validUntil": "2029-04-02T00:00:00Z",
+      "legalStatus": "in-force",
+      "value": {
+        "certificateId": "0000-0000-0000-0000-0000",
+        "regimeVersion": "sap-2012",
+        "legacyEER": "D"
+      }
+    },
+    {
+      "component": "council-tax-band",
+      "status": "present",
+      "verificationLevel": "sourceMatched",
+      "source": "voa",
+      "collectedAt": "2026-09-02T09:14:26Z",
+      "validUntil": "2027-04-01T00:00:00Z",
+      "value": "D"
+    },
+    {
+      "component": "flood-risk",
+      "status": "stale",
+      "verificationLevel": "sourceMatched",
+      "source": "long-term-flood-risk",
+      "collectedAt": "2026-03-02T09:14:27Z",
+      "validUntil": "2026-09-02T09:14:27Z",
+      "value": {
+        "riversAndSea": "very-low",
+        "surfaceWater": "low"
+      }
+    },
+    {
+      "component": "general-property-information",
+      "status": "present",
+      "verificationLevel": "ownerDeclared",
+      "source": "ownerDeclaration",
+      "collectedAt": "2026-09-02T19:22:41Z",
+      "validUntil": null,
+      "value": {
+        "answeredIn": "questionnaire"
+      }
+    },
+    {
+      "component": "leasehold-terms",
+      "status": "requested",
+      "verificationLevel": "unknown",
+      "legalStatus": "enacted-not-commenced",
+      "heldBy": "managing-agent",
+      "requestedAt": "2026-09-05T10:00:00Z",
+      "daysElapsed": 11
+    },
+    {
+      "component": "standard-searches",
+      "status": "needs-professional",
+      "verificationLevel": "unknown",
+      "heldBy": "search-provider"
+    },
+    {
+      "component": "chain-status",
+      "status": "not-started",
+      "verificationLevel": "unknown"
+    },
+    {
+      "component": "gas-safety-record",
+      "status": "not-applicable",
+      "verificationLevel": "unknown"
+    },
+    {
+      "component": "x-example-private-component",
+      "status": "unknown",
+      "verificationLevel": "unknown"
+    }
+  ],
+  "questionnaire": {
+    "modulesComplete": [
+      "basics",
+      "utilities",
+      "occupancy",
+      "chain"
+    ],
+    "modulesPartial": [
+      "alterations",
+      "boundaries-rights"
+    ],
+    "modulesNotStarted": [
+      "disputes-notices",
+      "condition-known"
+    ],
+    "answers": [
+      {
+        "answerId": "ans_EXAMPLE0001",
+        "recordId": "rec_EXAMPLE0001",
+        "questionId": "alterations.building_regs_completion",
+        "value": "yes-have-them",
+        "answeredAt": "2026-09-02T19:22:41Z",
+        "answeredBy": {
+          "kind": "user",
+          "id": "usr_EXAMPLE0001",
+          "role": "seller"
+        },
+        "verificationLevel": "ownerDeclared",
+        "evidence": [
+          {
+            "documentId": "doc_EXAMPLE0001",
+            "filename": "example-completion-certificate.pdf",
+            "uploadedAt": "2026-09-02T19:23:10Z",
+            "validUntil": null,
+            "verificationLevel": "ownerDeclared"
+          }
+        ],
+        "supersedes": null
+      }
+    ]
+  },
+  "readiness": {
+    "score": 0.62,
+    "band": "well-underway",
+    "scoredAt": "2026-09-14T08:00:00Z"
+  },
+  "documents": [
+    {
+      "documentId": "doc_EXAMPLE0001",
+      "component": "general-property-information",
+      "filename": "example-completion-certificate.pdf",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "uploadedAt": "2026-09-02T19:23:10Z",
+      "verificationLevel": "ownerDeclared"
+    }
+  ],
+  "provenanceNote": "Every value carries source, collectedAt and verificationLevel. Values past validUntil are marked stale and are not presented as current.",
+  "x-example-vendor-field": "Extension properties beginning x- are permitted."
+}

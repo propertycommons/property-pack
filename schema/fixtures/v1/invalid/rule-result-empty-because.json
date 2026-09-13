@@ -1,0 +1,8 @@
+{
+  "$comment": "SPDX-License-Identifier: Apache-2.0. Synthetic conformance fixture: no real property, person or record. A determination that cannot show its working is a verdict. because may not be empty.",
+  "ruleId": "licensing.selective_designation",
+  "status": "uncertain",
+  "because": [],
+  "legalStatus": "locally-discretionary",
+  "asOf": "2026-09-02T09:14:30Z"
+}

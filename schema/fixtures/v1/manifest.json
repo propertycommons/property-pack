@@ -1,0 +1,250 @@
+{
+  "$comment": "SPDX-License-Identifier: Apache-2.0. The conformance fixtures for ukpp.pack.v1, and what each is expected to do. A suggested way forward for property packs in England - not a standard, and endorsed by nobody.",
+  "fixtures": [
+    {
+      "file": "valid/bundle-minimal.json",
+      "kind": "bundle",
+      "expect": "valid"
+    },
+    {
+      "file": "valid/bundle-full.json",
+      "kind": "bundle",
+      "expect": "valid"
+    },
+    {
+      "file": "valid/answer.json",
+      "kind": "answer",
+      "expect": "valid"
+    },
+    {
+      "file": "valid/question.json",
+      "kind": "question",
+      "expect": "valid"
+    },
+    {
+      "file": "valid/notification.json",
+      "kind": "notification",
+      "expect": "valid"
+    },
+    {
+      "file": "valid/hook.json",
+      "kind": "hook",
+      "expect": "valid"
+    },
+    {
+      "file": "valid/rule-result-uncertain.json",
+      "kind": "rule-result",
+      "expect": "valid"
+    },
+    {
+      "file": "invalid/bundle-missing-jurisdiction.json",
+      "kind": "bundle",
+      "expect": [
+        {
+          "rule": "schema",
+          "path": "/jurisdiction"
+        }
+      ]
+    },
+    {
+      "file": "invalid/bundle-missing-disclaimer.json",
+      "kind": "bundle",
+      "expect": [
+        {
+          "rule": "schema",
+          "path": "/disclaimer"
+        }
+      ]
+    },
+    {
+      "file": "invalid/bundle-wrong-schema-uri.json",
+      "kind": "bundle",
+      "expect": [
+        {
+          "rule": "schema",
+          "path": "/$schema"
+        }
+      ]
+    },
+    {
+      "file": "invalid/bundle-bare-verified.json",
+      "kind": "bundle",
+      "expect": [
+        {
+          "rule": "schema",
+          "path": "/components/0/verificationLevel"
+        }
+      ]
+    },
+    {
+      "file": "invalid/bundle-compliant-band.json",
+      "kind": "bundle",
+      "expect": [
+        {
+          "rule": "schema",
+          "path": "/readiness/band"
+        }
+      ]
+    },
+    {
+      "file": "invalid/bundle-document-contents.json",
+      "kind": "bundle",
+      "expect": [
+        {
+          "rule": "schema",
+          "path": "/documents/0/contentBase64"
+        }
+      ]
+    },
+    {
+      "file": "invalid/answer-not-owner-declared.json",
+      "kind": "answer",
+      "expect": [
+        {
+          "rule": "schema",
+          "path": "/verificationLevel"
+        }
+      ]
+    },
+    {
+      "file": "invalid/question-no-jurisdiction.json",
+      "kind": "question",
+      "expect": [
+        {
+          "rule": "schema",
+          "path": "/jurisdiction"
+        }
+      ]
+    },
+    {
+      "file": "invalid/question-empty-who-asks.json",
+      "kind": "question",
+      "expect": [
+        {
+          "rule": "schema",
+          "path": "/whoAsks"
+        }
+      ]
+    },
+    {
+      "file": "invalid/question-enum-without-options.json",
+      "kind": "question",
+      "expect": [
+        {
+          "rule": "schema",
+          "path": "/options"
+        }
+      ]
+    },
+    {
+      "file": "invalid/notification-missing-provenance.json",
+      "kind": "notification",
+      "expect": [
+        {
+          "rule": "schema",
+          "path": "/body/provenance"
+        }
+      ]
+    },
+    {
+      "file": "invalid/hook-document-contents.json",
+      "kind": "hook",
+      "expect": [
+        {
+          "rule": "schema",
+          "path": "/payload/documentContent"
+        }
+      ]
+    },
+    {
+      "file": "invalid/rule-result-empty-because.json",
+      "kind": "rule-result",
+      "expect": [
+        {
+          "rule": "schema",
+          "path": "/because"
+        }
+      ]
+    },
+    {
+      "file": "invalid/rule-result-fail-status.json",
+      "kind": "rule-result",
+      "expect": [
+        {
+          "rule": "schema",
+          "path": "/status"
+        }
+      ]
+    },
+    {
+      "file": "invalid/bundle-unknown-component.json",
+      "kind": "bundle",
+      "expect": [
+        {
+          "rule": "component.known-id",
+          "path": "/components/0/component"
+        }
+      ]
+    },
+    {
+      "file": "invalid/question-unknown-component.json",
+      "kind": "question",
+      "expect": [
+        {
+          "rule": "component.known-id",
+          "path": "/mapsToComponents/1"
+        }
+      ]
+    },
+    {
+      "file": "invalid/bundle-duplicate-component.json",
+      "kind": "bundle",
+      "expect": [
+        {
+          "rule": "component.duplicate",
+          "path": "/components/1/component"
+        }
+      ]
+    },
+    {
+      "file": "invalid/bundle-stale-as-present.json",
+      "kind": "bundle",
+      "expect": [
+        {
+          "rule": "component.stale-as-current",
+          "path": "/components/0/status"
+        }
+      ]
+    },
+    {
+      "file": "invalid/bundle-stale-not-expired.json",
+      "kind": "bundle",
+      "expect": [
+        {
+          "rule": "component.stale-as-current",
+          "path": "/components/0/status"
+        }
+      ]
+    },
+    {
+      "file": "invalid/bundle-days-elapsed-wrong.json",
+      "kind": "bundle",
+      "expect": [
+        {
+          "rule": "request.days-elapsed",
+          "path": "/components/0/daysElapsed"
+        }
+      ]
+    },
+    {
+      "file": "invalid/question-module-mismatch.json",
+      "kind": "question",
+      "expect": [
+        {
+          "rule": "question.module-prefix",
+          "path": "/module"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "$comment": "SPDX-License-Identifier: Apache-2.0. Synthetic conformance fixture: no real property, person or record. Hooks carry references and summaries, never document contents.",
+  "hookId": "hk_EXAMPLE0001",
+  "event": "pack.component_completed",
+  "occurredAt": "2026-09-18T14:02:00Z",
+  "recordRef": "rec_EXAMPLE0001",
+  "subscriberId": "sub_EXAMPLE0001",
+  "scope": "pack.summary",
+  "payload": {
+    "component": "leasehold-terms",
+    "verificationLevel": "professionallyVerified",
+    "readinessDelta": {
+      "from": 0.62,
+      "to": 0.71
+    },
+    "documentContent": "JVBERi0xLjcK"
+  },
+  "deliveryAttempts": 1,
+  "signature": "sha256=0000000000000000000000000000000000000000000000000000000000000000"
+}
