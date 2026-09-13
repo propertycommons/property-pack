@@ -6,6 +6,8 @@
 //
 // Published address (this file's identifier):
 //   https://propertycommons.github.io/property-pack/schema/v1/envelope.ts
+// JSON twin, for validation:
+//   https://propertycommons.github.io/property-pack/schema/v1/envelope.schema.json
 //
 // Note on fetching this file: GitHub Pages serves .ts as video/mp2t, so a
 // browser will offer to download it rather than display it. For reading, use

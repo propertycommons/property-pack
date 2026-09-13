@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://propertycommons.github.io/property-pack/schema/v1/envelope.schema.json",
+  "$comment": "SPDX-License-Identifier: CC-BY-4.0. A suggested way forward for property packs in England. One worked proposal - not a standard, and endorsed by nobody.",
+  "title": "Provenance envelope",
+  "description": "The JSON twin of envelope.ts. Every field in a property record is wrapped in an envelope carrying its source, when it was collected, when it was last verified, when it goes stale, and how well it is evidenced. The other schemas in this directory reference the definitions here rather than restating them, so each enum token is defined once.",
+  "$ref": "#/$defs/envelope",
+
+  "$defs": {
+    "envelope": {
+      "title": "Envelope<T>",
+      "description": "Records are append-only: never update an envelope in place. Write a new one and set supersedes to the identifier of the envelope it replaces.",
+      "type": "object",
+      "required": [
+        "value",
+        "source",
+        "sourceRecordId",
+        "collectedAt",
+        "verifiedAt",
+        "validUntil",
+        "verificationLevel",
+        "legalStatus",
+        "supersedes"
+      ],
+      "properties": {
+        "value": {
+          "description": "The value itself. Its shape depends on the field."
+        },
+        "source": {
+          "description": "Where the value came from, for example epc-odc, planning-data, voa, hmlr, prs-database, ownerDeclaration. Deliberately an open string: an implementer with a source this project does not have should not need a schema change.",
+          "type": "string",
+          "minLength": 1
+        },
+        "sourceRecordId": {
+          "description": "The identifier of the record in that source, where the source has one.",
+          "type": ["string", "null"]
+        },
+        "collectedAt": {
+          "description": "When the value was fetched or captured.",
+          "$ref": "#/$defs/isoDateTime"
+        },
+        "verifiedAt": {
+          "description": "When the value was last confirmed against its source.",
+          "anyOf": [{ "$ref": "#/$defs/isoDateTime" }, { "type": "null" }]
+        },
+        "validUntil": {
+          "description": "After this instant the value is rendered as stale and is never presented as current. A null means no expiry semantics apply, not that the value is permanently fresh.",
+          "anyOf": [{ "$ref": "#/$defs/isoDateTime" }, { "type": "null" }]
+        },
+        "verificationLevel": {
+          "$ref": "#/$defs/verificationLevel"
+        },
+        "legalStatus": {
+          "description": "Where the field carries a rule, the legal status of that rule.",
+          "anyOf": [{ "$ref": "#/$defs/legalStatus" }, { "type": "null" }]
+        },
+        "supersedes": {
+          "description": "The identifier of the envelope this one replaces, in the field history.",
+          "type": ["string", "null"]
+        }
+      },
+      "patternProperties": { "^x-": true },
+      "additionalProperties": false
+    },
+
+    "verificationLevel": {
+      "title": "VerificationLevel",
+      "description": "Five states, never collapsed into a binary badge. A closed vocabulary: adding a token is a MAJOR change. statutoryRegisterVerified is reachable by nothing in England today and is retained deliberately - the enum describes kinds of evidence, not currently available feeds.",
+      "type": "string",
+      "enum": [
+        "ownerDeclared",
+        "sourceMatched",
+        "professionallyVerified",
+        "statutoryRegisterVerified",
+        "unknown"
+      ]
+    },
+
+    "legalStatus": {
+      "title": "LegalStatus",
+      "description": "The status of a rule or policy a field depends on. A closed vocabulary: adding a token is a MAJOR change. Never pre-empt a status.",
+      "type": "string",
+      "enum": [
+        "in-force",
+        "enacted-not-commenced",
+        "announced-policy",
+        "consultation-stage",
+        "locally-discretionary"
+      ]
+    },
+
+    "componentId": {
+      "description": "A component identifier from the component register (components.json), in kebab-case. An open vocabulary: consumers must tolerate identifiers they do not recognise. Identifiers beginning x- are private extensions and are never registered.",
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+
+    "token": {
+      "description": "A kebab-case token from an open vocabulary, such as a jurisdiction, an audience, or who holds a component.",
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+
+    "isoDate": {
+      "description": "An ISO 8601 calendar date, YYYY-MM-DD. Expressed as a pattern rather than a format, because format is an annotation by default in JSON Schema 2020-12 and a pattern gives every conformant validator the same answer.",
+      "type": "string",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$"
+    },
+
+    "isoDateTime": {
+      "description": "An ISO 8601 date and time with an explicit offset, such as 2026-09-02T09:14:25Z. A pattern rather than a format, for the reason given on isoDate.",
+      "type": "string",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]+)?(Z|[+-]([01][0-9]|2[0-3]):[0-5][0-9])$"
+    }
+  }
+}

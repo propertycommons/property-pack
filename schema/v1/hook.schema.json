@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://propertycommons.github.io/property-pack/schema/v1/hook.schema.json",
+  "$comment": "SPDX-License-Identifier: CC-BY-4.0. A suggested way forward for property packs in England. One worked proposal - not a standard, and endorsed by nobody.",
+  "title": "Outbound hook payload",
+  "description": "The shape of an event sent to a subscribed partner. Hooks carry references and summaries, never document contents: the payload is closed to every property not listed here, with no extension point, so that rule is enforced by the schema rather than by good intentions. Documents move only through an authenticated, logged, expiring fetch.",
+  "type": "object",
+  "required": [
+    "hookId",
+    "event",
+    "occurredAt",
+    "recordRef",
+    "subscriberId",
+    "scope",
+    "payload",
+    "deliveryAttempts",
+    "signature"
+  ],
+  "properties": {
+    "$comment": { "type": "string" },
+    "hookId": { "type": "string", "minLength": 1 },
+    "event": {
+      "description": "What happened - for example pack.component_completed. An open vocabulary.",
+      "type": "string",
+      "pattern": "^[a-z]+(\\.[a-z0-9]+(_[a-z0-9]+)*)+$"
+    },
+    "occurredAt": { "$ref": "envelope.schema.json#/$defs/isoDateTime" },
+    "recordRef": {
+      "description": "A reference to the record. Never the record.",
+      "type": "string",
+      "minLength": 1
+    },
+    "subscriberId": { "type": "string", "minLength": 1 },
+    "scope": {
+      "description": "What the subscriber is entitled to see - for example pack.summary.",
+      "type": "string",
+      "pattern": "^[a-z]+(\\.[a-z0-9]+(_[a-z0-9]+)*)*$"
+    },
+    "payload": {
+      "type": "object",
+      "required": ["component"],
+      "properties": {
+        "component": { "$ref": "envelope.schema.json#/$defs/componentId" },
+        "verificationLevel": { "$ref": "envelope.schema.json#/$defs/verificationLevel" },
+        "readinessDelta": {
+          "type": "object",
+          "required": ["from", "to"],
+          "properties": {
+            "from": { "type": "number", "minimum": 0, "maximum": 1 },
+            "to": { "type": "number", "minimum": 0, "maximum": 1 }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "deliveryAttempts": { "type": "integer", "minimum": 1 },
+    "signature": {
+      "description": "An HMAC-SHA256 signature of the payload, hex-encoded.",
+      "type": "string",
+      "pattern": "^sha256=[0-9a-f]{64}$"
+    }
+  },
+  "patternProperties": { "^x-": true },
+  "additionalProperties": false
+}

@@ -1,0 +1,29 @@
+{
+  "$comment": "SPDX-License-Identifier: Apache-2.0. Synthetic conformance fixture: no real property, person or record. An enum question must list its options.",
+  "questionId": "alterations.building_regs_completion",
+  "module": "alterations",
+  "jurisdiction": [
+    "england"
+  ],
+  "appliesWhen": {
+    "fieldPath": "answers.alterations.works_carried_out",
+    "equals": true
+  },
+  "prompt": "Do you have building regulations completion certificates for the work?",
+  "helpText": "A buyer's conveyancer will ask for these. If you don't have them, that's common and there are usually options - noting it now avoids a delay later.",
+  "whoAsks": [
+    "buyer-conveyancer",
+    "lender"
+  ],
+  "mapsToComponents": [
+    "general-property-information",
+    "planning-history"
+  ],
+  "answerType": "enum",
+  "allowsEvidence": true,
+  "evidenceTypes": [
+    "pdf",
+    "image"
+  ],
+  "weight": 3
+}

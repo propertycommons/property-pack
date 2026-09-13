@@ -1,0 +1,33 @@
+{
+  "$comment": "SPDX-License-Identifier: Apache-2.0. Synthetic conformance fixture: no real property, person or record. A notification states where its fact came from.",
+  "notificationId": "ntf_EXAMPLE0001",
+  "recordId": "rec_EXAMPLE0001",
+  "trigger": "document.expiring",
+  "firesAt": "2029-04-15T08:00:00Z",
+  "leadDays": 60,
+  "channel": [
+    "email",
+    "in-app"
+  ],
+  "audience": {
+    "role": "landlord",
+    "userId": "usr_EXAMPLE0001"
+  },
+  "subject": "Your EICR at 1 Example Street expires in 60 days",
+  "body": {
+    "fact": "The EICR you uploaded is dated 14 June 2024 and runs to 14 June 2029.",
+    "action": "Most landlords arrange a new inspection a couple of months ahead.",
+    "legalStatus": null
+  },
+  "suppressIf": [
+    {
+      "condition": "document.replaced",
+      "component": "eicr"
+    },
+    {
+      "condition": "user.unsubscribed",
+      "scope": "expiry-reminders"
+    }
+  ],
+  "state": "scheduled"
+}

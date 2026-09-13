@@ -103,8 +103,33 @@
     </tr>
     <tr>
       <td><strong>Provenance envelope</strong><br><span class="note">Five verification states, five legal statuses</span></td>
-      <td><a href="https://github.com/propertycommons/property-pack/blob/main/schema/v1/envelope.ts"><code>schema/v1/envelope.ts</code></a></td>
+      <td><a href="schema/v1/envelope.schema.json"><code>schema/v1/envelope.schema.json</code></a><br><a href="https://github.com/propertycommons/property-pack/blob/main/schema/v1/envelope.ts"><code>schema/v1/envelope.ts</code></a></td>
       <td>CC-BY-4.0</td>
+    </tr>
+    <tr>
+      <td><strong>Handoff bundle</strong><br><span class="note">The <code>ukpp.pack.v1</code> interchange format</span></td>
+      <td><a href="schema/v1/bundle.schema.json"><code>schema/v1/bundle.schema.json</code></a></td>
+      <td>CC-BY-4.0</td>
+    </tr>
+    <tr>
+      <td><strong>Question definition</strong><br><span class="note">The shape of a question, not any bank's content</span></td>
+      <td><a href="schema/v1/question.schema.json"><code>schema/v1/question.schema.json</code></a></td>
+      <td>CC-BY-4.0</td>
+    </tr>
+    <tr>
+      <td><strong>Rule result</strong><br><span class="note">An explainable determination and its evidence</span></td>
+      <td><a href="schema/v1/rule-result.schema.json"><code>schema/v1/rule-result.schema.json</code></a><br><a href="https://github.com/propertycommons/property-pack/blob/main/schema/v1/rule-result.ts"><code>schema/v1/rule-result.ts</code></a></td>
+      <td>CC-BY-4.0</td>
+    </tr>
+    <tr>
+      <td><strong>Notification and hook</strong><br><span class="note">A reminder, and an outbound partner event</span></td>
+      <td><a href="schema/v1/notification.schema.json"><code>schema/v1/notification.schema.json</code></a><br><a href="schema/v1/hook.schema.json"><code>schema/v1/hook.schema.json</code></a></td>
+      <td>CC-BY-4.0</td>
+    </tr>
+    <tr>
+      <td><strong>Reference validator and conformance fixtures</strong><br><span class="note">Code, not published at an address</span></td>
+      <td><a href="https://github.com/propertycommons/property-pack/tree/main/schema/validator"><code>schema/validator/</code></a><br><a href="https://github.com/propertycommons/property-pack/tree/main/schema/fixtures"><code>schema/fixtures/</code></a></td>
+      <td>Apache-2.0</td>
     </tr>
     <tr>
       <td><strong>Editorial commons</strong><br><span class="note">Licensed and gated; intentionally empty so far</span></td>
@@ -116,9 +141,10 @@
 </div>
 
 <p class="note">
-  The envelope links to the GitHub blob view rather than to this site: GitHub
-  Pages serves <code>.ts</code> as <code>video/mp2t</code>, so a browser offers
-  to download it rather than display it.
+  The <code>.ts</code> files link to the GitHub blob view rather than to this
+  site: GitHub Pages serves <code>.ts</code> as <code>video/mp2t</code>, so a
+  browser offers to download them rather than display them. Each has a JSON
+  Schema twin served here as JSON.
 </p>
 
 <p>
@@ -151,17 +177,19 @@
 <h2>Conformance is not yet claimable</h2>
 
 <p>
-  The reference validator and the conformance fixtures do not exist yet, and no
-  version has been tagged. There is nothing to conform to.
+  The reference validator and the conformance fixtures exist, but no version
+  has been tagged, and a claim of conformance has to name the version it is a
+  claim about.
 </p>
 
 <p>
-  When they exist, conformance will mean exactly one thing: <em>an
-  implementation conforms if it emits bundles that validate against these
-  published schemas and passes these published fixtures.</em> That is a
-  statement about interoperating with this proposal. It is <strong>not</strong>
-  a mark of quality, an endorsement, a certification, or evidence that anything
-  is compliant with any legal requirement.
+  Once <code>v1.0.0</code> is tagged, conformance means exactly one thing:
+  <em>an implementation conforms to a version if the bundles it emits validate
+  against that version's published schemas, and it passes that version's
+  published conformance fixtures.</em> That is a statement about interoperating
+  with this proposal. It is <strong>not</strong> a mark of quality, an
+  endorsement, a certification, or evidence that anything is compliant with any
+  legal requirement.
 </p>
 
 <h2>Open source is not open data</h2>

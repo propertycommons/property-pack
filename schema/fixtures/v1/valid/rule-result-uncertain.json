@@ -1,0 +1,17 @@
+{
+  "$comment": "SPDX-License-Identifier: Apache-2.0. Synthetic conformance fixture: no real property, person or record. An honest uncertain: licensing cannot be determined from open data, and the rule shows what it looked at.",
+  "ruleId": "licensing.selective_designation",
+  "status": "uncertain",
+  "because": [
+    {
+      "fieldPath": "fields.selectiveLicensing",
+      "observed": null
+    },
+    {
+      "fieldPath": "localAuthority.code",
+      "observed": "E99999999"
+    }
+  ],
+  "legalStatus": "locally-discretionary",
+  "asOf": "2026-09-02T09:14:30Z"
+}

@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://propertycommons.github.io/property-pack/schema/v1/rule-result.schema.json",
+  "$comment": "SPDX-License-Identifier: CC-BY-4.0. A suggested way forward for property packs in England. One worked proposal - not a standard, and endorsed by nobody.",
+  "title": "Rule result",
+  "description": "The JSON twin of rule-result.ts. An explainable determination: where an implementation applies a rule, it returns its working. uncertain is a first-class status, not a failure.",
+  "type": "object",
+  "required": ["ruleId", "status", "because", "legalStatus", "asOf"],
+  "properties": {
+    "$comment": { "type": "string" },
+    "ruleId": {
+      "description": "The rule that was applied.",
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "$ref": "#/$defs/ruleStatus"
+    },
+    "because": {
+      "description": "The evidence trail. Never empty: a determination that cannot show its working is a verdict.",
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/evidence" }
+    },
+    "legalStatus": {
+      "description": "The legal status of the rule itself.",
+      "$ref": "envelope.schema.json#/$defs/legalStatus"
+    },
+    "asOf": {
+      "description": "The moment the determination was made.",
+      "$ref": "envelope.schema.json#/$defs/isoDateTime"
+    }
+  },
+  "patternProperties": { "^x-": true },
+  "additionalProperties": false,
+
+  "$defs": {
+    "ruleStatus": {
+      "title": "RuleStatus",
+      "description": "A closed vocabulary: adding a token is a MAJOR change.",
+      "type": "string",
+      "enum": ["pass", "action-needed", "uncertain", "not-applicable"]
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["fieldPath", "observed"],
+      "properties": {
+        "fieldPath": {
+          "description": "The path of the field the rule read.",
+          "type": "string",
+          "minLength": 1
+        },
+        "observed": {
+          "description": "The value the rule observed there. May be null: an absent value is evidence too."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

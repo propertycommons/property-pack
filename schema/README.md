@@ -19,17 +19,24 @@ property pack *will* contain — only what one *could* contain.
 
 ```
 schema/
-  LICENSE-VOCABULARY   the CC-BY-4.0 licence governing this subtree
-  README.md            this file
-  v1/                  every versioned artefact that carries an $id
-    components.json    the component register: 27 rows
-    envelope.ts        Envelope<T>, VerificationLevel, LegalStatus
+  LICENSE-VOCABULARY          the CC-BY-4.0 licence for the vocabulary in v1/
+  README.md                   this file
+  v1/                         every versioned artefact that carries an $id
+    components.json           the component register: 27 rows
+    envelope.ts               Envelope<T>, VerificationLevel, LegalStatus
+    envelope.schema.json        ... and its JSON twin
+    rule-result.ts            RuleResult and its evidence trail
+    rule-result.schema.json     ... and its JSON twin
+    bundle.schema.json        the ukpp.pack.v1 handoff bundle, and answers
+    question.schema.json      the shape of a question definition
+    notification.schema.json  a reminder about a record
+    hook.schema.json          an event sent to a subscribed partner
+  validator/                  the reference validator -- a tool, spans versions
+  fixtures/v1/                the conformance fixtures for v1
 ```
 
-Not written yet, and named so their absence is visible rather than implied:
-`rule-result.ts`, the question, bundle, notification and hook schemas, the
-reference validator (`schema/validator/` — a tool, spanning versions) and the
-conformance fixtures (`schema/fixtures/v1/` — per version).
+The validator and the fixtures are code, and are Apache-2.0. Everything in
+`v1/` is vocabulary, and is CC-BY-4.0.
 
 ---
 
@@ -38,20 +45,55 @@ conformance fixtures (`schema/fixtures/v1/` — per version).
 ```
 https://propertycommons.github.io/property-pack/schema/v1/components.json
 https://propertycommons.github.io/property-pack/schema/v1/envelope.ts
+https://propertycommons.github.io/property-pack/schema/v1/envelope.schema.json
+https://propertycommons.github.io/property-pack/schema/v1/rule-result.ts
+https://propertycommons.github.io/property-pack/schema/v1/rule-result.schema.json
+https://propertycommons.github.io/property-pack/schema/v1/bundle.schema.json
+https://propertycommons.github.io/property-pack/schema/v1/question.schema.json
+https://propertycommons.github.io/property-pack/schema/v1/notification.schema.json
+https://propertycommons.github.io/property-pack/schema/v1/hook.schema.json
 ```
 
-Each `$id` is the literal path the file is served from. The version sits in the
-directory rather than only in the identifier, so no build step exists that
-could let the two drift apart, and a future `v2` is a sibling directory rather
-than a rewrite.
+Each `$id` is the literal path the file is served from, and CI fails if one is
+not. The version sits in the directory rather than only in the identifier, so
+no build step exists that could let the two drift apart, and a future `v2` is a
+sibling directory rather than a rewrite.
 
 GitHub Pages serves `.ts` as `video/mp2t`, so a browser will offer to download
-`envelope.ts` rather than display it. For reading, use
-[the blob view](https://github.com/propertycommons/property-pack/blob/main/schema/v1/envelope.ts).
+`envelope.ts` or `rule-result.ts` rather than display it. For reading, use the
+blob view
+([`envelope.ts`](https://github.com/propertycommons/property-pack/blob/main/schema/v1/envelope.ts),
+[`rule-result.ts`](https://github.com/propertycommons/property-pack/blob/main/schema/v1/rule-result.ts)).
 
-`envelope.ts` has no JSON twin yet. When one is written it will be authored
-alongside the bundle schema, so that the bundle can reference it rather than
-restate the five enum values in a second place.
+Each `.ts` file has a JSON Schema twin, served as JSON at its own address. The
+other schemas reference `envelope.schema.json` rather than restating the enum
+values, and CI fails if the TypeScript, the JSON Schema and the register ever
+disagree about a token.
+
+## The schemas in one paragraph each
+
+**`bundle.schema.json`** is `ukpp.pack.v1`: the machine-readable handoff of a
+pack. It carries `$schema` alongside `schemaVersion`, so a bundle names the
+thing it claims to conform to by an address anyone can dereference. It always
+carries `jurisdiction`, even from a product that only ever emits one value,
+and it always carries a `disclaimer`. It holds document references, never
+document contents. Answers inside it are `ownerDeclared` by construction.
+
+**`question.schema.json`** is the shape of a question, not the content of any
+bank. `jurisdiction` is a required array, and every question must say who asks
+for it and why.
+
+**`rule-result.schema.json`** is an explainable determination. Its evidence
+trail may never be empty, and `uncertain` is a first-class status.
+
+**`notification.schema.json`** and **`hook.schema.json`** fix the shape of a
+reminder and of an outbound partner event before any partner exists. A
+notification must state where its fact came from. A hook payload has no
+extension point at all, so that it cannot carry a document.
+
+Objects are closed apart from `x-` extension properties, and dates are
+patterns rather than formats, so every conformant validator gives the same
+answer. `VERSIONING.md` says which vocabularies are closed and which are open.
 
 ---
 
@@ -59,13 +101,13 @@ restate the five enum values in a second place.
 
 | What | Licence | Why |
 | --- | --- | --- |
-| The **vocabulary** — the component register, the identifiers, the enum tokens | **CC-BY-4.0** (`LICENSE-VOCABULARY`) | Identifiers have to be maximally reusable. Share-alike on an identifier vocabulary is friction with no corresponding benefit — the intended outcome is that a competitor emits these component ids |
-| The **code** around it — the reference validator, the fixtures, the adapters, the types as code | **Apache-2.0** (`/LICENSE`) | The explicit patent grant matters the moment a standards or accreditation process touches the work |
+| The **vocabulary** — everything in `v1/`: the component register, the type definitions, the JSON Schemas, the identifiers and enum tokens | **CC-BY-4.0** (`LICENSE-VOCABULARY`) | Identifiers have to be maximally reusable. Share-alike on an identifier vocabulary is friction with no corresponding benefit — the intended outcome is that a competitor emits these component ids |
+| The **code** around it — the reference validator in `validator/`, the fixtures in `fixtures/`, any future adapters | **Apache-2.0** (`/LICENSE`) | The explicit patent grant matters the moment a standards or accreditation process touches the work |
 
-`envelope.ts` sits on that line: it is a vocabulary expressed in TypeScript, and
-it carries `SPDX-License-Identifier: CC-BY-4.0` in its header. **The identifier
-in a file wins over any inference from its directory.** `/NOTICE` is the
-authoritative map.
+`envelope.ts` and `rule-result.ts` sit on that line: each is a vocabulary
+expressed in TypeScript, and each carries `SPDX-License-Identifier: CC-BY-4.0`
+in its header. **The identifier in a file wins over any inference from its
+directory.** `/NOTICE` is the authoritative map.
 
 ---
 

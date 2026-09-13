@@ -1,0 +1,35 @@
+{
+  "$comment": "SPDX-License-Identifier: Apache-2.0. Synthetic conformance fixture: no real property, person or record. A question's module must be the prefix of its questionId.",
+  "questionId": "alterations.building_regs_completion",
+  "module": "boundaries-rights",
+  "jurisdiction": [
+    "england"
+  ],
+  "appliesWhen": {
+    "fieldPath": "answers.alterations.works_carried_out",
+    "equals": true
+  },
+  "prompt": "Do you have building regulations completion certificates for the work?",
+  "helpText": "A buyer's conveyancer will ask for these. If you don't have them, that's common and there are usually options - noting it now avoids a delay later.",
+  "whoAsks": [
+    "buyer-conveyancer",
+    "lender"
+  ],
+  "mapsToComponents": [
+    "general-property-information",
+    "planning-history"
+  ],
+  "answerType": "enum",
+  "options": [
+    "yes-have-them",
+    "yes-but-cannot-find",
+    "no",
+    "not-sure"
+  ],
+  "allowsEvidence": true,
+  "evidenceTypes": [
+    "pdf",
+    "image"
+  ],
+  "weight": 3
+}

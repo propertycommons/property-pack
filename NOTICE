@@ -17,14 +17,17 @@ WHICH LICENCE GOVERNS WHICH PATH
   PATH                        LICENCE         COVERS
   --------------------------  --------------  ----------------------------
   /LICENSE                    Apache-2.0      all code in this repository:
-                                              the reference validator, the
-                                              conformance fixtures, the
-                                              adapters, the types as code
+                                              the reference validator
+                                              (schema/validator/), the
+                                              conformance fixtures
+                                              (schema/fixtures/), the CI
+                                              scripts, any future adapters
   /NOTICE                     not a licence   this file
-  schema/LICENSE-VOCABULARY   CC-BY-4.0       the component register and the
-                                              envelope vocabulary -- the
-                                              identifiers, not the code
-                                              around them
+  schema/LICENSE-VOCABULARY   CC-BY-4.0       everything in schema/v1/: the
+                                              component register, the type
+                                              definitions and the JSON
+                                              Schemas -- the vocabulary, not
+                                              the code that checks it
   commons/LICENSE             CC-BY-SA-4.0    the question bank, the
                                               registers, the language
                                               rulebook -- editorial content
@@ -34,9 +37,11 @@ artefact sets live in one repository because the published namespace has to be
 one address. A repository boundary would have enforced the split for free; a
 directory boundary has to be written down, which is what this file is.
 
-Nothing in commons/ inherits the root Apache-2.0 licence. Nothing in schema/
-inherits it either, so far as the vocabulary is concerned. Both directories
-carried their own licence file from the first commit that created them.
+Nothing in commons/ inherits the root Apache-2.0 licence. Nothing in schema/v1/
+inherits it either: the published type definitions and schemas are vocabulary,
+not code. The validator and the fixtures beside them in schema/ are code, and
+are Apache-2.0. Both directories carried their own licence file from the first
+commit that created them.
 
 
 SPDX HEADERS

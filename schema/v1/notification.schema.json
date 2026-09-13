@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://propertycommons.github.io/property-pack/schema/v1/notification.schema.json",
+  "$comment": "SPDX-License-Identifier: CC-BY-4.0. A suggested way forward for property packs in England. One worked proposal - not a standard, and endorsed by nobody.",
+  "title": "Notification",
+  "description": "A reminder or message about a record. Every notification states a fact and where that fact came from; it never states a judgement without its source.",
+  "type": "object",
+  "required": [
+    "notificationId",
+    "recordId",
+    "trigger",
+    "firesAt",
+    "channel",
+    "audience",
+    "subject",
+    "body",
+    "state"
+  ],
+  "properties": {
+    "$comment": { "type": "string" },
+    "notificationId": { "type": "string", "minLength": 1 },
+    "recordId": { "type": "string", "minLength": 1 },
+    "trigger": {
+      "description": "What fired this notification - for example document.expiring, request.ageing, legislation.status_changed. An open vocabulary.",
+      "$ref": "#/$defs/eventName"
+    },
+    "firesAt": { "$ref": "envelope.schema.json#/$defs/isoDateTime" },
+    "leadDays": {
+      "description": "For a reminder, how many days ahead of the event it fires.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "channel": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "envelope.schema.json#/$defs/token" }
+    },
+    "audience": {
+      "type": "object",
+      "required": ["role"],
+      "properties": {
+        "role": { "$ref": "envelope.schema.json#/$defs/token" },
+        "userId": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "subject": { "type": "string", "minLength": 1 },
+    "body": {
+      "type": "object",
+      "required": ["fact", "provenance"],
+      "properties": {
+        "fact": {
+          "description": "The fact, stated plainly.",
+          "type": "string",
+          "minLength": 1
+        },
+        "action": {
+          "description": "What people in this position usually do next. Never an instruction presented as a legal duty.",
+          "type": "string",
+          "minLength": 1
+        },
+        "provenance": {
+          "description": "Where the fact came from. Required.",
+          "type": "string",
+          "minLength": 1
+        },
+        "legalStatus": {
+          "anyOf": [{ "$ref": "envelope.schema.json#/$defs/legalStatus" }, { "type": "null" }]
+        }
+      },
+      "additionalProperties": false
+    },
+    "suppressIf": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["condition"],
+        "properties": {
+          "condition": { "$ref": "#/$defs/eventName" },
+          "component": { "$ref": "envelope.schema.json#/$defs/componentId" },
+          "scope": { "$ref": "envelope.schema.json#/$defs/token" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "state": { "$ref": "#/$defs/notificationState" }
+  },
+  "patternProperties": { "^x-": true },
+  "additionalProperties": false,
+
+  "$defs": {
+    "eventName": {
+      "description": "A dotted event name: a subject, then one or more snake_case segments.",
+      "type": "string",
+      "pattern": "^[a-z]+(\\.[a-z0-9]+(_[a-z0-9]+)*)+$"
+    },
+    "notificationState": {
+      "title": "NotificationState",
+      "description": "A closed vocabulary: adding a token is a MAJOR change.",
+      "type": "string",
+      "enum": ["scheduled", "sent", "suppressed", "cancelled"]
+    }
+  }
+}
