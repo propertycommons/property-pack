@@ -1,0 +1,284 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://propertycommons.github.io/property-pack/schema/v1/bundle.schema.json",
+  "$comment": "SPDX-License-Identifier: CC-BY-4.0. A suggested way forward for property packs in England. One worked proposal - not a standard, and endorsed by nobody.",
+  "title": "Property pack handoff bundle, ukpp.pack.v1",
+  "description": "The machine-readable handoff of a property pack, sent alongside a human-readable link and requiring no account of the recipient. The schema is UK-wide even where a product is not: jurisdiction is carried by a field, never by the format's name. A bundle holds references to documents, never their contents.",
+  "type": "object",
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "bundleId",
+    "generatedAt",
+    "recordId",
+    "jurisdiction",
+    "audience",
+    "disclaimer",
+    "property",
+    "components"
+  ],
+  "properties": {
+    "$comment": { "type": "string" },
+    "$schema": {
+      "description": "The address of this schema. Emitted in every bundle alongside schemaVersion, so that a bundle names the thing it claims to conform to by an address anyone can dereference.",
+      "const": "https://propertycommons.github.io/property-pack/schema/v1/bundle.schema.json"
+    },
+    "schemaVersion": {
+      "const": "ukpp.pack.v1"
+    },
+    "bundleId": { "type": "string", "minLength": 1 },
+    "generatedAt": {
+      "description": "When the bundle was generated. Staleness is judged against this instant.",
+      "$ref": "envelope.schema.json#/$defs/isoDateTime"
+    },
+    "recordId": { "type": "string", "minLength": 1 },
+    "jurisdiction": {
+      "description": "The jurisdiction of the property. Always emitted, even by a product that only ever produces one value: a bundle that omits it cannot be safely interpreted by a consumer that serves more than one.",
+      "$ref": "envelope.schema.json#/$defs/token"
+    },
+    "audience": {
+      "description": "Who this bundle was prepared for - for example buyer, buyer-conveyancer, lender. An open vocabulary.",
+      "$ref": "envelope.schema.json#/$defs/token"
+    },
+    "disclaimer": {
+      "description": "What the recipient is and is not being given. Required: a consumer that reads only the JSON must still be told, for example, that owner-declared items are not independently verified and that no component is certified.",
+      "type": "string",
+      "minLength": 1
+    },
+    "property": { "$ref": "#/$defs/property" },
+    "components": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/component" }
+    },
+    "questionnaire": { "$ref": "#/$defs/questionnaire" },
+    "readiness": { "$ref": "#/$defs/readiness" },
+    "documents": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/documentRef" }
+    },
+    "provenanceNote": { "type": "string", "minLength": 1 }
+  },
+  "patternProperties": { "^x-": true },
+  "additionalProperties": false,
+
+  "$defs": {
+    "property": {
+      "type": "object",
+      "required": ["uprn", "addressNormalised"],
+      "properties": {
+        "uprn": {
+          "description": "Unique Property Reference Number.",
+          "type": "string",
+          "pattern": "^[0-9]{1,12}$"
+        },
+        "addressNormalised": { "type": "string", "minLength": 1 },
+        "tenure": {
+          "type": "object",
+          "required": ["value", "verificationLevel"],
+          "properties": {
+            "value": { "$ref": "envelope.schema.json#/$defs/token" },
+            "verificationLevel": { "$ref": "envelope.schema.json#/$defs/verificationLevel" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "patternProperties": { "^x-": true },
+      "additionalProperties": false
+    },
+
+    "componentStatus": {
+      "title": "ComponentStatus",
+      "description": "Where a component stands in this pack. A closed vocabulary: adding a token is a MAJOR change. present means a current value is included. stale means a value is included but is past its validUntil and must not be presented as current. requested means a third party has been asked and has not yet answered. not-started means the component is needed and nothing has been done. needs-professional means only a paid professional can supply it. not-applicable means it does not apply to this property. unknown means it cannot be determined.",
+      "type": "string",
+      "enum": [
+        "present",
+        "stale",
+        "requested",
+        "not-started",
+        "needs-professional",
+        "not-applicable",
+        "unknown"
+      ]
+    },
+
+    "component": {
+      "description": "One component of the pack, projected from its envelope. Every value carries source, collectedAt and verificationLevel.",
+      "type": "object",
+      "required": ["component", "status", "verificationLevel"],
+      "properties": {
+        "component": { "$ref": "envelope.schema.json#/$defs/componentId" },
+        "status": { "$ref": "#/$defs/componentStatus" },
+        "verificationLevel": { "$ref": "envelope.schema.json#/$defs/verificationLevel" },
+        "value": {},
+        "source": { "type": "string", "minLength": 1 },
+        "sourceRecordId": { "type": ["string", "null"] },
+        "collectedAt": { "$ref": "envelope.schema.json#/$defs/isoDateTime" },
+        "verifiedAt": {
+          "anyOf": [{ "$ref": "envelope.schema.json#/$defs/isoDateTime" }, { "type": "null" }]
+        },
+        "validUntil": {
+          "anyOf": [{ "$ref": "envelope.schema.json#/$defs/isoDateTime" }, { "type": "null" }]
+        },
+        "legalStatus": {
+          "anyOf": [{ "$ref": "envelope.schema.json#/$defs/legalStatus" }, { "type": "null" }]
+        },
+        "heldBy": {
+          "description": "Who holds the missing component - for example managing-agent, search-provider, seller. An open vocabulary.",
+          "$ref": "envelope.schema.json#/$defs/token"
+        },
+        "requestedAt": { "$ref": "envelope.schema.json#/$defs/isoDateTime" },
+        "daysElapsed": {
+          "description": "Whole days from requestedAt to the bundle's generatedAt.",
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "patternProperties": { "^x-": true },
+      "additionalProperties": false,
+      "dependentRequired": { "daysElapsed": ["requestedAt"] },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "status": { "enum": ["present", "stale"] } },
+            "required": ["status"]
+          },
+          "then": { "required": ["value", "source", "collectedAt", "validUntil"] }
+        },
+        {
+          "if": {
+            "properties": { "status": { "const": "requested" } },
+            "required": ["status"]
+          },
+          "then": { "required": ["heldBy", "requestedAt"] }
+        },
+        {
+          "if": {
+            "properties": { "status": { "const": "needs-professional" } },
+            "required": ["status"]
+          },
+          "then": { "required": ["heldBy"] }
+        }
+      ]
+    },
+
+    "questionnaire": {
+      "type": "object",
+      "required": ["modulesComplete", "modulesPartial", "modulesNotStarted", "answers"],
+      "properties": {
+        "modulesComplete": { "$ref": "#/$defs/tokenList" },
+        "modulesPartial": { "$ref": "#/$defs/tokenList" },
+        "modulesNotStarted": { "$ref": "#/$defs/tokenList" },
+        "answers": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/answer" }
+        }
+      },
+      "patternProperties": { "^x-": true },
+      "additionalProperties": false
+    },
+
+    "answer": {
+      "title": "Answer",
+      "description": "An owner's answer, with provenance. Every answer is written as ownerDeclared: an owner's answer is never presented as verified, and the verification level is the honesty mechanism. Answers are append-only; a correction is a new answer that supersedes the old one.",
+      "type": "object",
+      "required": [
+        "answerId",
+        "recordId",
+        "questionId",
+        "value",
+        "answeredAt",
+        "answeredBy",
+        "verificationLevel",
+        "evidence",
+        "supersedes"
+      ],
+      "properties": {
+        "$comment": { "type": "string" },
+        "answerId": { "type": "string", "minLength": 1 },
+        "recordId": { "type": "string", "minLength": 1 },
+        "questionId": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*\\.[a-z0-9]+(_[a-z0-9]+)*$"
+        },
+        "value": {},
+        "answeredAt": { "$ref": "envelope.schema.json#/$defs/isoDateTime" },
+        "answeredBy": { "$ref": "#/$defs/actor" },
+        "verificationLevel": { "const": "ownerDeclared" },
+        "evidence": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/evidence" }
+        },
+        "supersedes": { "type": ["string", "null"] }
+      },
+      "patternProperties": { "^x-": true },
+      "additionalProperties": false
+    },
+
+    "evidence": {
+      "description": "A document attached to an answer, by reference.",
+      "type": "object",
+      "required": ["documentId", "filename", "uploadedAt", "validUntil", "verificationLevel"],
+      "properties": {
+        "documentId": { "type": "string", "minLength": 1 },
+        "filename": { "type": "string", "minLength": 1 },
+        "uploadedAt": { "$ref": "envelope.schema.json#/$defs/isoDateTime" },
+        "validUntil": {
+          "anyOf": [{ "$ref": "envelope.schema.json#/$defs/isoDateTime" }, { "type": "null" }]
+        },
+        "verificationLevel": { "$ref": "envelope.schema.json#/$defs/verificationLevel" }
+      },
+      "additionalProperties": false
+    },
+
+    "actor": {
+      "type": "object",
+      "required": ["kind", "id", "role"],
+      "properties": {
+        "kind": { "$ref": "envelope.schema.json#/$defs/token" },
+        "id": { "type": "string", "minLength": 1 },
+        "role": { "$ref": "envelope.schema.json#/$defs/token" }
+      },
+      "additionalProperties": false
+    },
+
+    "readinessBand": {
+      "title": "ReadinessBand",
+      "description": "Deliberately neutral labels. No pass or fail, nothing implying legal status. A closed vocabulary: adding a token is a MAJOR change.",
+      "type": "string",
+      "enum": ["just-started", "getting-there", "well-underway", "mostly-assembled"]
+    },
+
+    "readiness": {
+      "description": "A completeness measure, never a compliance measure. Components only a professional can supply stay in the denominator.",
+      "type": "object",
+      "required": ["score", "band", "scoredAt"],
+      "properties": {
+        "score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "band": { "$ref": "#/$defs/readinessBand" },
+        "scoredAt": { "$ref": "envelope.schema.json#/$defs/isoDateTime" }
+      },
+      "additionalProperties": false
+    },
+
+    "documentRef": {
+      "description": "A reference to a document. Never its contents: documents move only through an authenticated, logged, expiring fetch.",
+      "type": "object",
+      "required": ["documentId", "component", "filename", "sha256", "uploadedAt", "verificationLevel"],
+      "properties": {
+        "documentId": { "type": "string", "minLength": 1 },
+        "component": { "$ref": "envelope.schema.json#/$defs/componentId" },
+        "filename": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "uploadedAt": { "$ref": "envelope.schema.json#/$defs/isoDateTime" },
+        "verificationLevel": { "$ref": "envelope.schema.json#/$defs/verificationLevel" }
+      },
+      "additionalProperties": false
+    },
+
+    "tokenList": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "envelope.schema.json#/$defs/token" }
+    }
+  }
+}

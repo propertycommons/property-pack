@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://propertycommons.github.io/property-pack/schema/v1/question.schema.json",
+  "$comment": "SPDX-License-Identifier: CC-BY-4.0. A suggested way forward for property packs in England. One worked proposal - not a standard, and endorsed by nobody.",
+  "title": "Question definition",
+  "description": "The shape of a question, not the content of any question bank. Lets anyone author a bank - in any jurisdiction - that a validator of this schema accepts. No question without a stated reason: every question names who asks for it and explains why. Never reproduce a third-party form's field set.",
+  "type": "object",
+  "required": [
+    "questionId",
+    "module",
+    "jurisdiction",
+    "prompt",
+    "helpText",
+    "whoAsks",
+    "mapsToComponents",
+    "answerType",
+    "allowsEvidence",
+    "weight"
+  ],
+  "properties": {
+    "$comment": { "type": "string" },
+    "questionId": {
+      "description": "module.question_name - the module in kebab-case, the question in snake_case. A permanent identifier once published.",
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*\\.[a-z0-9]+(_[a-z0-9]+)*$"
+    },
+    "module": {
+      "description": "The module this question belongs to. Must match the prefix of questionId.",
+      "$ref": "envelope.schema.json#/$defs/token"
+    },
+    "jurisdiction": {
+      "description": "Where this question applies. Always an array, even where every value in a bank is the same: other implementers will author banks with other values, and a product's build scope must not become a property of the shared schema.",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "envelope.schema.json#/$defs/token" }
+    },
+    "appliesWhen": {
+      "description": "Ask this question only when the field at fieldPath equals the given value. Absent means always applicable.",
+      "type": "object",
+      "required": ["fieldPath", "equals"],
+      "properties": {
+        "fieldPath": { "type": "string", "minLength": 1 },
+        "equals": {}
+      },
+      "additionalProperties": false
+    },
+    "prompt": {
+      "description": "The question as the owner sees it.",
+      "type": "string",
+      "minLength": 1
+    },
+    "helpText": {
+      "description": "Why this is asked, in plain language. Required: it is what turns an interrogation into an explanation.",
+      "type": "string",
+      "minLength": 1
+    },
+    "whoAsks": {
+      "description": "Who will ask the owner for this - for example buyer-conveyancer, lender. At least one.",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "envelope.schema.json#/$defs/token" }
+    },
+    "mapsToComponents": {
+      "description": "The components in the register this question contributes to. At least one.",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "envelope.schema.json#/$defs/componentId" }
+    },
+    "answerType": {
+      "$ref": "#/$defs/answerType"
+    },
+    "options": {
+      "description": "The permitted answers. Required for enum and multi-enum questions, and not permitted otherwise. Include a not-sure option: unknown is a legitimate answer, not an unfinished one.",
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": { "$ref": "envelope.schema.json#/$defs/token" }
+    },
+    "allowsEvidence": {
+      "description": "Whether the owner may attach a document to their answer.",
+      "type": "boolean"
+    },
+    "evidenceTypes": {
+      "description": "The kinds of document accepted as evidence - for example pdf, image. Required when allowsEvidence is true.",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "envelope.schema.json#/$defs/token" }
+    },
+    "weight": {
+      "description": "The question's weight in its module's completeness. Published as a guess, and to be read as one.",
+      "type": "number",
+      "exclusiveMinimum": 0
+    }
+  },
+  "patternProperties": { "^x-": true },
+  "additionalProperties": false,
+
+  "allOf": [
+    {
+      "if": {
+        "properties": { "answerType": { "enum": ["enum", "multi-enum"] } },
+        "required": ["answerType"]
+      },
+      "then": { "required": ["options"] },
+      "else": { "not": { "required": ["options"] } }
+    },
+    {
+      "if": {
+        "properties": { "allowsEvidence": { "const": true } },
+        "required": ["allowsEvidence"]
+      },
+      "then": { "required": ["evidenceTypes"] },
+      "else": { "not": { "required": ["evidenceTypes"] } }
+    }
+  ],
+
+  "$defs": {
+    "answerType": {
+      "title": "AnswerType",
+      "description": "A closed vocabulary: adding a token is a MAJOR change.",
+      "type": "string",
+      "enum": ["boolean", "enum", "multi-enum", "text", "number", "date"]
+    }
+  }
+}
