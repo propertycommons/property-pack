@@ -48,18 +48,24 @@ to keep one private until it is too late to change.
 | Path | What it is |
 | --- | --- |
 | [`schema/v1/components.json`](schema/v1/components.json) | The component register: 27 named components, each with a permanent id, a supply code, the best verification level reachable for it today, expiry semantics, a primary source, and a status |
-| [`schema/v1/envelope.ts`](schema/v1/envelope.ts) | The provenance envelope: `Envelope<T>`, `VerificationLevel` (five states), `LegalStatus` (five states) |
+| [`schema/v1/envelope.ts`](schema/v1/envelope.ts), [`envelope.schema.json`](schema/v1/envelope.schema.json) | The provenance envelope: `Envelope<T>`, `VerificationLevel` (five states), `LegalStatus` (five states) — as TypeScript, and as JSON Schema for validation |
+| [`schema/v1/bundle.schema.json`](schema/v1/bundle.schema.json) | The `ukpp.pack.v1` handoff bundle: a pack's components, questionnaire answers, readiness and document references, with provenance on every value |
+| [`schema/v1/question.schema.json`](schema/v1/question.schema.json) | The shape of a question definition — not the content of any question bank |
+| [`schema/v1/rule-result.ts`](schema/v1/rule-result.ts), [`rule-result.schema.json`](schema/v1/rule-result.schema.json) | An explainable determination, with the evidence trail it was drawn from |
+| [`schema/v1/notification.schema.json`](schema/v1/notification.schema.json), [`hook.schema.json`](schema/v1/hook.schema.json) | A reminder about a record, and an event sent to a subscribed partner |
+| [`schema/validator/`](schema/validator/) | The reference validator |
+| [`schema/fixtures/`](schema/fixtures/) | The conformance fixtures: synthetic documents that must pass, and ones that must fail for a stated reason |
 | [`commons/`](commons/) | Licensed and gated from the commit that created it. No editorial content yet; it lands here |
 | `NOTICE`, `LICENSE`, `schema/LICENSE-VOCABULARY`, `commons/LICENSE` | The licence boundary, scoped by directory |
 | `VERSIONING.md`, `CONTRIBUTING.md`, `SECURITY.md` | How this is versioned, how to contribute, how to report a vulnerability |
 
 ## What is not here yet
 
-The reference validator, the conformance fixtures, the remaining schemas
-(`rule-result.ts`, and the question, bundle, notification and hook schemas),
-and everything under `commons/v1/`.
+Everything under `commons/v1/`, and a tagged version.
 
-**No version is tagged, and conformance is not yet claimable.** See
+**No version is tagged yet, so conformance is not yet claimable.** The schemas,
+the reference validator and the conformance fixtures now exist; conformance
+becomes claimable against `v1.0.0` once that tag is cut. See
 [Conformance](#conformance) below. `commons/` is empty on purpose: it carries
 its own licence and its own CI gate from the commit that created it, so that
 nothing can ever land there ungated and nothing can later be argued to have
@@ -83,8 +89,12 @@ would be a sibling directory rather than a rewrite. A format nobody can
 dereference is a file, not a reference.
 
 One caveat on fetching: GitHub Pages serves `.ts` as `video/mp2t`, so a browser
-will offer to download `envelope.ts` rather than display it. For reading, use
-[the blob view](https://github.com/propertycommons/property-pack/blob/main/schema/v1/envelope.ts).
+will offer to download `envelope.ts` or `rule-result.ts` rather than display
+it. For reading, use the blob view
+([`envelope.ts`](https://github.com/propertycommons/property-pack/blob/main/schema/v1/envelope.ts),
+[`rule-result.ts`](https://github.com/propertycommons/property-pack/blob/main/schema/v1/rule-result.ts)).
+Each has a JSON Schema twin, served as JSON at its own address, so everything
+that carries an `$id` is machine-readable where it is published.
 
 ---
 
@@ -150,14 +160,24 @@ guesses.
 ## Conformance
 
 **Conformance is not claimable yet.** The reference validator and the
-conformance fixtures do not exist, so there is nothing to conform to and no
-version has been tagged.
+conformance fixtures exist, but no version has been tagged, and a claim of
+conformance has to name the version it is a claim about.
 
-When they do exist, conformance will mean exactly one thing: *an implementation
-conforms if it emits bundles that validate against these published schemas and
-passes these published fixtures.* That is a statement about interoperating with
-this proposal. It is **not** a mark of quality, an endorsement, a certification,
-or evidence that anything is compliant with any legal requirement.
+Once `v1.0.0` is tagged, conformance means exactly one thing: *an
+implementation conforms to a version if the bundles it emits validate against
+that version's published schemas, and it passes that version's published
+conformance fixtures.* That is a statement about interoperating with this
+proposal. It is **not** a mark of quality, an endorsement, a certification, or
+evidence that anything is compliant with any legal requirement.
+
+To check a document yourself — no install step, no lockfile:
+
+```bash
+npx --yes --package ajv@8.20.0 -c 'node schema/validator/validate.mjs your-bundle.json'
+```
+
+[`schema/validator/`](schema/validator/) documents the options and every rule
+it checks beyond the schemas themselves.
 
 ---
 
@@ -169,9 +189,9 @@ map; it is repeated here and in each of the two Creative Commons licence files.
 
 | Path | Licence | Covers |
 | --- | --- | --- |
-| [`/LICENSE`](LICENSE) | **Apache-2.0** | All code: the reference validator, the conformance fixtures, the adapters, the types as code |
+| [`/LICENSE`](LICENSE) | **Apache-2.0** | All code: the reference validator (`schema/validator/`), the conformance fixtures (`schema/fixtures/`), the CI scripts, and any future adapters |
 | [`/NOTICE`](NOTICE) | *not a licence* | The map of which licence governs which path |
-| [`schema/LICENSE-VOCABULARY`](schema/LICENSE-VOCABULARY) | **CC-BY-4.0** | The component register and the envelope vocabulary — the identifiers, not the code around them |
+| [`schema/LICENSE-VOCABULARY`](schema/LICENSE-VOCABULARY) | **CC-BY-4.0** | Everything in `schema/v1/`: the component register, the type definitions and the JSON Schemas — the vocabulary, not the code that checks it |
 | [`commons/LICENSE`](commons/LICENSE) | **CC-BY-SA-4.0** | The question bank, the registers, the language rulebook — editorial content |
 
 The root `LICENSE` is a verbatim copy of the Apache License 2.0 and carries no

@@ -118,16 +118,25 @@ link that moved, do not touch it.
 
 ## Before you open a pull request
 
-Run the gate and the type check locally. Both are dependency-free — there is no
-lockfile and no install step.
+Run the gates, the type check and the conformance fixtures locally. None of
+them needs an install step or a lockfile — `tsc` and Ajv are fetched through a
+pinned `npx`.
 
 ```bash
 node .github/scripts/check-registers.mjs
-npx --yes --package typescript@5 tsc --noEmit --strict --skipLibCheck schema/v1/envelope.ts
+node .github/scripts/check-schemas.mjs
+npx --yes --package typescript@5 tsc --noEmit --strict --skipLibCheck schema/v1/*.ts
+npx --yes --package ajv@8.20.0 -c 'node schema/validator/run-fixtures.mjs'
 ```
 
-The gate reports every problem it finds rather than stopping at the first, and
+Each reports every problem it finds rather than stopping at the first, and
 exits non-zero if there are any.
+
+**If you change a schema or a validator rule, change the fixtures with it.**
+Every rule must be exercised by at least one invalid fixture, and every invalid
+fixture must fail for exactly the reason its manifest entry states; CI enforces
+both. **Fixtures are synthetic, always** — no real address, UPRN, certificate
+number or person, however convenient. See `schema/fixtures/README.md`.
 
 ---
 
@@ -146,8 +155,9 @@ footnotes nothing.
 
 By opening a pull request you agree that your contribution is licensed under
 the licence governing the path you are changing — Apache-2.0 for code,
-CC-BY-4.0 for the vocabulary under `schema/`, CC-BY-SA-4.0 for editorial
-content under `commons/`. `NOTICE` is the authoritative map. There is no
+including `schema/validator/` and `schema/fixtures/`; CC-BY-4.0 for the
+vocabulary in `schema/v1/`; CC-BY-SA-4.0 for editorial content under
+`commons/`. `NOTICE` is the authoritative map. There is no
 contributor licence agreement and no copyright assignment.
 
 ---

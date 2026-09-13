@@ -25,10 +25,12 @@ been adopted.
 
 **No version is tagged.** `v1.0.0` does not exist yet.
 
-What is published today is the component register, the envelope vocabulary, the
-licence boundary and the governance files. The reference validator, the
-conformance fixtures and the remaining schemas are not written. Until they are,
-there is nothing to validate against and **conformance is not claimable**.
+What is published today is the component register, the envelope, the bundle,
+question, rule result, notification and hook schemas, the reference validator,
+the conformance fixtures, the licence boundary and the governance files. Every
+item `v1.0.0` requires now exists; the tag itself has not been cut. Until it is,
+**conformance is not claimable**, because a claim of conformance has to name
+the version it is a claim about.
 
 The published artefacts should be treated as **subject to change without a
 version bump** until `v1.0.0` is tagged. After that, the rules below apply.
@@ -39,13 +41,23 @@ version bump** until `v1.0.0` is tagged. After that, the rules below apply.
 
 The tag is what gets cited, so it is gated. `v1.0.0` requires all of:
 
-- the schemas;
-- the reference validator;
-- the conformance fixtures;
-- a one-paragraph conformance statement — *an implementation conforms if it
-  emits bundles that validate against the published schemas and passes the
-  published fixtures*;
-- public CI running the fixtures on every commit.
+- the schemas — in `schema/v1/`;
+- the reference validator — in `schema/validator/`;
+- the conformance fixtures — in `schema/fixtures/v1/`;
+- a one-paragraph conformance statement — below;
+- public CI running the fixtures on every commit — the `Conformance fixtures`
+  job.
+
+### The conformance statement
+
+> An implementation conforms to a version of `ukpp.pack.v1` if the bundles it
+> emits validate against that version's published schemas, and it passes that
+> version's published conformance fixtures. The reference validator in
+> `schema/validator/` is one way to check both; any conformant JSON Schema
+> 2020-12 validator should reach the same verdict on the schemas. Conformance
+> is a statement about interoperating with this proposal. It is not a mark of
+> quality, an endorsement, a certification, or evidence that anything is
+> compliant with any legal requirement.
 
 Semantic versioning and the deprecation policy below apply **from `v1.0.0`**,
 not from the first breaking change. Deciding the policy after something breaks
@@ -84,6 +96,71 @@ validating, or change what a previously valid document means:
 
 **A `status` change is a data edit, never a code change.** If a regulatory
 status change requires anything more than editing a row, the design is wrong.
+
+---
+
+## Closed and open vocabularies
+
+Whether adding a token is MINOR or MAJOR depends on whether consumers are
+required to tolerate tokens they do not recognise. This section is that
+requirement, written down.
+
+**Closed — adding a token is MAJOR.** A consumer may reject a value it does not
+recognise, because these vocabularies carry claims about evidence and law, and
+guessing at an unknown one is exactly the error they exist to prevent:
+
+| Vocabulary | Defined in |
+| --- | --- |
+| `VerificationLevel` | `envelope.schema.json`, `envelope.ts` |
+| `LegalStatus` | `envelope.schema.json`, `envelope.ts` |
+| Component status in a bundle | `bundle.schema.json` |
+| Readiness band | `bundle.schema.json` |
+| `RuleStatus` | `rule-result.schema.json`, `rule-result.ts` |
+| `AnswerType` | `question.schema.json` |
+| Notification state | `notification.schema.json` |
+
+**Open — adding a value is MINOR.** A consumer **must** tolerate a value it does
+not recognise, and display or pass it through rather than reject the document:
+
+- component ids (the register grows by MINOR releases);
+- `source`, `heldBy`, `audience`, `jurisdiction` and the other kebab-case
+  tokens described as open in the schemas;
+- notification triggers and hook event names.
+
+Emitting and consuming are held to different standards here. A conforming
+**emitter** uses only component ids that are in the register it conforms to,
+or ids beginning `x-`, and the reference validator checks exactly that against
+the register in its own checkout. A **consumer** that meets an id it does not
+know — most often one added by a later MINOR release — tolerates it. An older
+validator reporting a newer id as unknown is a statement about the older
+register, not a reason to reject the bundle.
+
+Where a vocabulary is written down in more than one file, CI fails if the
+copies disagree.
+
+### Extensions
+
+Objects in the published schemas are closed: a property that is not defined is
+an error, so that a misspelt field fails loudly rather than being silently
+ignored. Two things are always permitted:
+
+- **properties whose names begin `x-`**, for implementation-specific data, on
+  every object that has an extension point;
+- **component ids beginning `x-`**, for components an implementation tracks
+  that the register does not. They are never registered, and the reference
+  validator does not check them against the register.
+
+The one deliberate exception is the hook `payload`, which has no extension
+point at all: a hook carries references and summaries, never document
+contents, and a closed payload is how that is enforced rather than hoped for.
+
+### Within a major version
+
+Versioned artefacts evolve **in place** within their major version directory:
+a MINOR or PATCH release of `v1` changes the files under `schema/v1/`, at the
+same addresses. That is what the semver guarantee is for — every document
+valid under `1.x` remains valid under every later `1.y`. The tag, not the
+directory, is what pins an exact release.
 
 ---
 

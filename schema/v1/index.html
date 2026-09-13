@@ -45,20 +45,47 @@
     <span class="note">CC-BY-4.0.</span>
   </li>
   <li>
+    <a href="envelope.schema.json"><code>envelope.schema.json</code></a> and
     <a href="https://github.com/propertycommons/property-pack/blob/main/schema/v1/envelope.ts"><code>envelope.ts</code></a>
     &mdash; the provenance envelope: <code>Envelope&lt;T&gt;</code>,
     <code>VerificationLevel</code>, <code>LegalStatus</code>.
-    <span class="note">CC-BY-4.0. Linked to the blob view because GitHub Pages
-    serves <code>.ts</code> as <code>video/mp2t</code>, so a browser downloads
-    it rather than displaying it.</span>
+    <span class="note">CC-BY-4.0.</span>
+  </li>
+  <li>
+    <a href="bundle.schema.json"><code>bundle.schema.json</code></a> &mdash; the
+    <code>ukpp.pack.v1</code> handoff bundle, including owner-declared answers.
+    <span class="note">CC-BY-4.0.</span>
+  </li>
+  <li>
+    <a href="question.schema.json"><code>question.schema.json</code></a> &mdash;
+    the shape of a question definition, not the content of any bank.
+    <span class="note">CC-BY-4.0.</span>
+  </li>
+  <li>
+    <a href="rule-result.schema.json"><code>rule-result.schema.json</code></a> and
+    <a href="https://github.com/propertycommons/property-pack/blob/main/schema/v1/rule-result.ts"><code>rule-result.ts</code></a>
+    &mdash; an explainable determination and its evidence trail.
+    <span class="note">CC-BY-4.0.</span>
+  </li>
+  <li>
+    <a href="notification.schema.json"><code>notification.schema.json</code></a> and
+    <a href="hook.schema.json"><code>hook.schema.json</code></a> &mdash; a
+    reminder about a record, and an event sent to a subscribed partner.
+    <span class="note">CC-BY-4.0.</span>
   </li>
 </ul>
 
 <p class="note">
-  Not written yet, and named so their absence is visible rather than implied:
-  <code>rule-result.ts</code>, the question, bundle, notification and hook
-  schemas, the reference validator and the conformance fixtures. No version is
-  tagged, and conformance is not yet claimable.
+  The <code>.ts</code> files link to the blob view because GitHub Pages serves
+  <code>.ts</code> as <code>video/mp2t</code>, so a browser downloads them
+  rather than displaying them. Each has a JSON twin served here.
+</p>
+
+<p class="note">
+  The reference validator and the conformance fixtures live in the repository,
+  under <a href="https://github.com/propertycommons/property-pack/tree/main/schema/validator"><code>schema/validator/</code></a>
+  and <a href="https://github.com/propertycommons/property-pack/tree/main/schema/fixtures"><code>schema/fixtures/</code></a>.
+  No version is tagged yet, and conformance is not yet claimable.
 </p>
 
 <hr>

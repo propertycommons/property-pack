@@ -1,14 +1,16 @@
 WHAT THIS LICENCE COVERS
 ========================
 
-This licence governs the schema/ directory: the component register, the
-envelope vocabulary, and the identifiers and enum tokens they define. It is
-the vocabulary licence, chosen so that identifiers are maximally reusable.
-You are meant to emit these component ids in your own product.
+This licence governs the vocabulary in the schema/ directory: everything in
+schema/v1/ -- the component register, the type definitions, the JSON
+Schemas, and the identifiers and enum tokens they define. It is the
+vocabulary licence, chosen so that identifiers are maximally reusable. You
+are meant to emit these component ids in your own product.
 
-The code around the vocabulary -- the reference validator, the conformance
-fixtures, the adapters, the types as code -- is licensed under Apache-2.0 by
-the LICENSE file at the root of this repository.
+The code around the vocabulary -- the reference validator in
+schema/validator/, the conformance fixtures in schema/fixtures/, and any
+future adapters -- is licensed under Apache-2.0 by the LICENSE file at the
+root of this repository.
 
 The full path map for this repository:
 
